@@ -7,65 +7,60 @@ import requests
 HEIGHT = 500
 WIDTH = 700
 
-x=''
-y=''
-z=''
 #THis function gives the information on how a specfic person is feeling
 #Depending on how that person is feeling depends on the bible verse they
 #will recieve.
 def howDoYouFeel(entry):
     if (entry == "bad") or (entry =="Bad"):
+        print("bad")
         x = "Philippian"
         y = "4"
         z = "13"
-        return (x,y,z)
     elif (entry == "horrible") or (entry=="Horrible"):
         x = "Deuteronomy"
         y = 31
         z = 6
-        return (x,y,z)
     elif (entry == "tragic") or (entry=="Tragic"):
         x = "2 Corinthians"
         y = 12
         z = 9
-        return (x,y,z)
     elif (entry == "ok") or (entry=="Ok"):
         x = "Psalm"
         y = 30
         z = 11
-        return (x,y,z)
     elif (entry == "bearable") or (entry=="Bearable"):
         x = "John"
         y = 14
         z = 27
-        return (x,y,z)
     elif (entry == "good") or (entry=="Good"):
         x = "John"
         y = 16
         z = 24
-        return (x,y,z)
     elif (entry == "great") or (entry=="Great"):
         x = "1 Corinthians"
         y = 16
         z = 14
-        return (x,y,z)
     elif (entry == "amazing") or (entry=="Amazing"):
         x = "Matthew"
         y = 19
         z = 26
-        return (x,y,z)
     elif (entry == "fantastic") or (entry=="Fantastic"):
         x = "Hebrews"
         y = 12
         z = 1
-        return (x,y,z)
     else:
         x = "That is not an option. Try agian!"
         print(x)
 
+    # ADDED -----------------------------------------
+    label = tk.Label(lower_frame, text = getBibleVerse(x,y,z))
+    label.place(relwidth=1,relheight=1)
+
 #This is where the bible app API is located. In this function, my code connects
 #to the bible apps code and retrives differnt bible verses.
-def getBibleVerse(x,y,z):
+def getBibleVerse(x, y, z):
+
+    print("x: {0} | y: {1} | z: {2}".format(x, y, z))
 
     url = "https://ajith-holy-bible.p.rapidapi.com/GetVerses"
 
@@ -92,9 +87,9 @@ canvas.pack()
 
 #This is the background image for the gui. It is stored locally so there for
 #it only needs the path to this folder
-background_image = tk.PhotoImage(file='./lighthouse.png')
-background_label = tk.Label(root, image=background_image)
-background_label.place(relwidth=1, relheight=1)
+# background_image = tk.PhotoImage(file='./lighthouse.png')
+# background_label = tk.Label(root, image=background_image)
+# background_label.place(relwidth=1, relheight=1)
 
 #The frame is where the differnt colors come in that border the text, button, or entry box
 frame = tk.Frame(root, bg="green", bd=5)
@@ -113,7 +108,12 @@ button.place(relx=0.7, relheight=1, relwidth=0.3)
 lower_frame = tk.Frame(root, bg="green", bd=10)
 lower_frame.place(relx=0.5, rely=0.25, relwidth=0.75, relheight=0.6, anchor='n')
 
-label = tk.Label(lower_frame, text = getBibleVerse(x,y,z))
-label.place(relwidth=1,relheight=1)
+
+# CHANGES ----------------
+#   removed the request to the getBibleVerse(x,y,z) method because it wouldn't run when the button was clicked, leading to the label not displaying properly
+#
+#   removed the global x, y, and z variables because they were not being used as global variables, they were only seen inside the local scope of the methods
+#
+#   moved the getBibleVerse(x,y,z) method to be called from within the howDoYouFeel method that way instead of returning x,y,z to nothing it can just pass the variables in directly
 
 root.mainloop()
